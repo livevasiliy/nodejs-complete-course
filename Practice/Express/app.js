@@ -1,6 +1,6 @@
 const express = require('express');
 
-const app = expres();
+const app = express();
 
 // For second task
 
