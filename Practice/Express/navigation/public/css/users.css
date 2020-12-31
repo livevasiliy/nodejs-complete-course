@@ -1,0 +1,9 @@
+.user-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-list__item {
+  list-style: none;
+  font-size: 24px;
+}
