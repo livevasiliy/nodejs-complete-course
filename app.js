@@ -11,7 +11,7 @@ app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
-const notFoundController = require('./controllers/not-found');
+const notFoundController = require('./controllers/error');
 
 app.use(bodyParser.urlencoded({
   extended: false
@@ -21,6 +21,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
-app.use(notFoundController.returnNotFound);
+app.use(notFoundController.get404);
 
 app.listen(3000);
