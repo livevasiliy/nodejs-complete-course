@@ -2,4 +2,15 @@ extends ../layouts/main-layout.pug
 
 block content
   main
-    h1  Nothing there!
+    if orders.length
+      ul
+        each order in orders
+          li
+            h1  #{order.id}
+            ul
+              each product in order.products
+                li
+                  div
+                    h2  #{product.title} (#{product.orderItem.quantity})
+    else
+      h1  Nothing there!
