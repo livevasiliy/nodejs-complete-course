@@ -11,7 +11,9 @@ block content
             header.card__header
               h1.product__title #{product.title}
               .card__image
-                img(src="#{product.imageUrl}", alt="#{product.title}")
+                - var img = product.imageUrl
+                - var alt = product.title
+                img(src=img, alt=alt)
                 .card__content
                   h2.product__price $#{product.price}
                   p.product__description
