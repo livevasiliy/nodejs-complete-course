@@ -3,15 +3,15 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const notFoundController = require('./controllers/error');
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
+
 const app = express();
 
 app.set('view engine', 'pug');
 app.set('views', 'views');
 
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
-
-const notFoundController = require('./controllers/error');
 
 app.use(bodyParser.urlencoded({
   extended: false
