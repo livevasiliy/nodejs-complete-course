@@ -1,1 +1,16 @@
 extends ../layouts/main-layout.pug
+
+block content
+  main.centered
+    article.card.product-item
+      header.card__header
+        h1.product__title #{product.title}
+        .card__image
+          - var img = product.imageUrl
+          - var alt = product.title
+          img(src=img, alt=alt)
+          .card__content
+            h2.product__price $#{product.price}
+            p.product__description  #{product.description}
+            .card__actions
+              include ../includes/add-to-cart.pug
