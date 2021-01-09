@@ -19,7 +19,7 @@ block content
                   h2.product__price $#{product.price}
                   p.product__description  #{product.description}
                   .card__actions
-                    - var link = '/products/' + product.id            
+                    - var link = '/products/' + product._id            
                     a.btn(href=link) Details
                     include ../includes/add-to-cart.pug
     else
