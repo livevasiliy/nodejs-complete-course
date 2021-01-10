@@ -1,9 +1,10 @@
 const path = require("path");
+const dotenv = require('dotenv').config();
 
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const mongoConnect = require("./util/database").mongoConnect;
+const mongoose = require("mongoose");
 
 const notFoundController = require("./controllers/error");
 const adminRoutes = require("./routes/admin");
@@ -24,12 +25,12 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
-	User.findById("5ff56047a98bdd4df836f64e")
+	User.findById("5ff9ee137d0de20954304554")
 		.then((user) => {
-			req.user = new User(user.name, user.email, user.cart, user._id);
+			req.user = user;
 			next();
 		})
-		.catch((err) => console.log(err));	
+		.catch((err) => console.log(err));
 });
 
 app.use("/admin", adminRoutes);
@@ -37,6 +38,24 @@ app.use(shopRoutes);
 
 app.use(notFoundController.get404);
 
-mongoConnect(() => {
-	app.listen(3000);
-});
+mongoose
+	.connect(
+		process.env.MONGO_URI,
+		{ useNewUrlParser: true, useUnifiedTopology: true }
+	)
+	.then((result) => {
+		User.findOne().then((user) => {
+			if (!user) {
+				const user = new User({
+					email: "dev@example.com",
+					name: "vasiliy",
+					cart: { items: [] },
+				});
+				user.save();
+			}
+		});
+		app.listen(3000);
+	})
+	.catch((err) => {
+		console.log(err);
+	});

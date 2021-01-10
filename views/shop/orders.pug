@@ -8,9 +8,9 @@ block content
           li
             h1  #{order._id}
             ul
-              each product in order.items
+              each p in order.products
                 li
                   div
-                    h2  #{product.title} (#{product.quantity})
+                    h2  #{p.product.title} (#{p.quantity})
     else
       h1  Nothing there!
