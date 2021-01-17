@@ -21,6 +21,7 @@ block content
                   .card__actions
                     - var link = '/products/' + product._id            
                     a.btn(href=link) Details
-                    include ../includes/add-to-cart.pug
+                    if isAuthenticated
+                      include ../includes/add-to-cart.pug
     else
       h1  No products

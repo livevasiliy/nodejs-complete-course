@@ -7,20 +7,23 @@ header.main-header
         a(class=(path === '/' ? 'active' : ''), href="/") Shop
       li.main-header__item
         a(class=(path === '/products' ? 'active' : ''), href="/products") Products
-      li.main-header__item
-        a(class=(path === '/cart' ? 'active' : '' ), href="/cart")  Cart
-      li.main-header__item
-        a(class=(path === '/orders' ? 'active' : ''), href="/orders") Orders
-
       if isAuthenticated
         li.main-header__item
-          a(class=(path === '/admin/add-product' ? 'active' : ''), href="/admin/add-product") Add Product
+          a(class=(path === '/cart' ? 'active' : '' ), href="/cart")  Cart
         li.main-header__item
-          a(class=(path === '/admin/products' ? 'active' : ''), href="/admin/products") Admin Products
-
+          a(class=(path === '/orders' ? 'active' : ''), href="/orders") Orders      
+          li.main-header__item
+            a(class=(path === '/admin/add-product' ? 'active' : ''), href="/admin/add-product") Add Product
+          li.main-header__item
+            a(class=(path === '/admin/products' ? 'active' : ''), href="/admin/products") Admin Products
     ul.main-header__item-list
-      li.main-header__item
-        a(href="/login", class=(path === '/login' ? 'active' : '')) Login
+      if !isAuthenticated
+        li.main-header__item
+          a(href="/login", class=(path === '/login' ? 'active' : '')) Login
+      else
+        li.main-header__item
+          form(action="/logout", method="POST")
+            button(type="submit") Logout
 nav.mobile-nav
   ul.mobile-nav__item-list
     li.mobile-nav__item
