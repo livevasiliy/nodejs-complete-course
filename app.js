@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const session = require("express-session");
-const MongoDBStore = require('connect-mongodb-session')(session);
+const MongoDBStore = require("connect-mongodb-session")(session);
 
 const notFoundController = require("./controllers/error");
 const adminRoutes = require("./routes/admin");
@@ -19,7 +19,7 @@ const User = require("./models/user");
 const app = express();
 const store = new MongoDBStore({
 	uri: process.env.MONGO_URI,
-	collection: 'sessions',
+	collection: "sessions",
 });
 
 app.set("view engine", "pug");
@@ -37,18 +37,10 @@ app.use(
 		secret: "my secret",
 		resave: false,
 		saveUninitialized: false,
-		store: store
+		store: store,
 	})
 );
 
-app.use((req, res, next) => {
-	User.findById("5ff9ee137d0de20954304554")
-		.then((user) => {
-			req.user = user;
-			next();
-		})
-		.catch((err) => console.log(err));
-});
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
