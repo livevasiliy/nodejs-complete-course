@@ -22,7 +22,8 @@ block content
         textarea(name="description", id="description", rows="5")  #{description}
 
         if editing
-          input(type="hidden", name="productId", value=product._id)
+          input(type="hidden", name="productId", value=product._id)          
 
         - var buttonLabel = editing ? 'Save Product' : 'Add Product'
+      input(type="hidden", name="_csrf", value=csrfToken)
       button.btn(type="submit") #{buttonLabel}

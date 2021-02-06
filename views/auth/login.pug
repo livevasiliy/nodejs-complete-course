@@ -6,6 +6,8 @@ block styles
 
 block content
   main
+    if errorMessage
+      div.user-message.user-message--error #{errorMessage}
     form.login-form(action=('/login'), method="POST")
       .form-control
         label(for="email")  Email
@@ -14,4 +16,5 @@ block content
         label(for="password")  Password
         input(type="password", name="password", id="password")
       .form-control
+      input(type="hidden", name="_csrf", value=csrfToken)
       button.btn(type="submit") Sign in

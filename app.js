@@ -8,6 +8,8 @@ const mongoose = require("mongoose");
 
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
+const csrf = require('csurf');
+const flash = require('connect-flash');
 
 const notFoundController = require("./controllers/error");
 const adminRoutes = require("./routes/admin");
@@ -21,6 +23,8 @@ const store = new MongoDBStore({
 	uri: process.env.MONGO_URI,
 	collection: "sessions",
 });
+
+const csrfProtection = csrf()
 
 app.set("view engine", "pug");
 app.set("views", "views");
@@ -41,6 +45,9 @@ app.use(
 	})
 );
 
+app.use(csrfProtection);
+app.use(flash());
+
 app.use((req, res, next) => {
 	if (!req.session.user) {
 		return next();
@@ -55,6 +62,12 @@ app.use((req, res, next) => {
 		});
 });
 
+app.use((req, res, next) => {
+	res.locals.isAuthenticated = req.session.isLoggedIn;
+	res.locals.csrfToken = req.csrfToken();
+	next();
+});
+
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
@@ -66,17 +79,7 @@ mongoose
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	})
-	.then((result) => {
-		User.findOne().then((user) => {
-			if (!user) {
-				const user = new User({
-					email: "dev@example.com",
-					name: "vasiliy",
-					cart: { items: [] },
-				});
-				user.save();
-			}
-		});
+	.then((result) => {		
 		app.listen(3000);
 	})
 	.catch((err) => {

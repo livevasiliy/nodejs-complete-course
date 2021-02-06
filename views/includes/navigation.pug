@@ -20,9 +20,12 @@ header.main-header
       if !isAuthenticated
         li.main-header__item
           a(href="/login", class=(path === '/login' ? 'active' : '')) Login
+        li.main-header__item
+          a(href="/signup", class=(path === '/signup' ? 'active' : '')) SignUp
       else
         li.main-header__item
           form(action="/logout", method="POST")
+            input(type="hidden", name="_csrf", value=csrfToken)
             button(type="submit") Logout
 nav.mobile-nav
   ul.mobile-nav__item-list
@@ -30,11 +33,22 @@ nav.mobile-nav
       a(class=(path === '/' ? 'active' : ''), href="/") Shop
     li.mobile-nav__item
       a(class=(path === '/products' ? 'active' : ''), href="/products") Products
-    li.mobile-nav__item
-      a(class=(path === '/cart' ? 'active' : '' ), href="/cart")  Cart
-    li.mobile-nav__item
-      a(class=(path === '/orders' ? 'active' : ''), href="/orders") Orders
-    li.mobile-nav__item
-      a(class=(path === '/admin/add-product' ? 'active' : ''), href="/admin/add-product") Add Product
-    li.mobile-nav__item
-      a(class=(path === '/admin/products' ? 'active' : ''), href="/admin/products") Admin Products
+    if isAuthenticated
+      li.mobile-nav__item
+        a(class=(path === '/cart' ? 'active' : '' ), href="/cart")  Cart
+      li.mobile-nav__item
+        a(class=(path === '/orders' ? 'active' : ''), href="/orders") Orders
+      li.mobile-nav__item
+        a(class=(path === '/admin/add-product' ? 'active' : ''), href="/admin/add-product") Add Product
+      li.mobile-nav__item
+        a(class=(path === '/admin/products' ? 'active' : ''), href="/admin/products") Admin Products
+    if !isAuthenticated
+      li.mobile-nav__item
+        a(class=(path === '/login' ? 'active' : ''), href="/login") Login
+      li.mobile-nav__item
+        a(class=(path === '/signup' ? 'active' : ''), href="/signup") SignUp
+    else
+      li.mobile-nav__item
+        form(action="/logout", method="POST")
+          input(type="hidden", name="_csrf", value=csrfToken)
+          button(type="submit") Logout
